@@ -10,7 +10,7 @@ build/
 .DS_Store
 .pytest_cache/
 *.pkl
-models/metrics.json
-data/customers.csv
 data/scores.csv
 .streamlit/secrets.toml
+
+# Keep precomputed chart images
