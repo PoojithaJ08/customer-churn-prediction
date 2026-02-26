@@ -142,5 +142,4 @@ feature definitions, performance breakdown, limitations, and retraining guidance
 
 ---
 
-*Part of a senior data analytics portfolio.*  
 *See also: [saas-churn-plan-change-analysis](https://github.com/PoojithaJ08/saas-churn-plan-change-analysis) — SQL + dbt churn pipeline*
