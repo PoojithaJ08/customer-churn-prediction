@@ -1,0 +1,44 @@
+name: ML Pipeline CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate synthetic data
+        run: python data/generate_data.py
+
+      - name: Train model
+        run: python src/train.py
+
+      - name: Run unit tests
+        run: pytest tests/ -v
+
+      - name: Score customers
+        run: python src/predict.py --input data/customers.csv --output data/scores.csv
+
+      - name: Validate model metrics
+        run: |
+          python - <<'EOF'
+          import json
+          m = json.load(open("models/metrics.json"))
+          assert m["roc_auc"] >= 0.75, f"AUC too low: {m['roc_auc']}"
+          assert m["accuracy"] >= 0.70, f"Accuracy too low: {m['accuracy']}"
+          assert m["at_risk_customers"] > 0, "No at-risk customers found"
+          print(f"✅ AUC: {m['roc_auc']} | Accuracy: {m['accuracy']:.1%} | At-risk: {m['at_risk_customers']:,}")
+          EOF
