@@ -2,11 +2,11 @@
 
 ## Generate synthetic customer data
 data:
-	python data/generate_data.py
+	python3 data/generate_data.py
 
 ## Train the Random Forest model
 train:
-	python src/train.py
+	python3 src/train.py
 
 ## Run unit tests
 test:
@@ -14,7 +14,7 @@ test:
 
 ## Score all customers (outputs data/scores.csv)
 score:
-	python src/predict.py --input data/customers.csv --output data/scores.csv
+	python3 src/predict.py --input data/customers.csv --output data/scores.csv
 
 ## Launch Streamlit dashboard at localhost:8501
 dashboard:
